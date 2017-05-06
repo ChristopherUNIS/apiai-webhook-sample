@@ -73,9 +73,9 @@ var aWss = expressWs.getWss('/');
 
 aWss.broadcast = function broadcast(data) {
     aWss.clients.forEach(function each(client) {
-        if (client.readyState === WebSocket.OPEN) {
+        // if (client.readyState === WebSocket.OPEN) {
             client.send(data);
-        }
+        // }
     });
 };
 
