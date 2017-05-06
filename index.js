@@ -33,7 +33,7 @@ server.post('/hook', function (req, res) {
 
         console.log('result: ', speech);
 
-        wss.broadcast(speech);
+        aWss.broadcast(speech);
 
         return res.json({
             speech: speech,
