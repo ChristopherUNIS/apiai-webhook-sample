@@ -1,5 +1,5 @@
 'use strict';
-
+const util = require('util');
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -10,8 +10,8 @@ restService.use(bodyParser.json());
 restService.post('/hook', function (req, res) {
 
     console.log('hook request');
-    console.log(JSON.stringify(req));
-//    console.log(JSON.stringify(res));
+    console.log(util.inspect(req));
+    console.log(util.inspect(res));
 
     try {
         var speech = 'empty speech';
