@@ -1,21 +1,28 @@
 'use strict';
-const util = require('util');
+
 const express = require('express');
 const bodyParser = require('body-parser');
 
 
-const restService = express();
-restService.use(bodyParser.json());
+const server = express();
 
-restService.post('/hook', function (req, res) {
+
+const SocketServer = require('ws').Server;
+const wss = new SocketServer({ server });
+
+wss.on('connection', (ws) => {
+  console.log('Client connected');
+  ws.on('close', () => console.log('Client disconnected'));
+});
+
+server.use(bodyParser.json());
+
+server.post('/hook', function (req, res) {
 
     console.log('hook request');
 
     try {
         var speech = 'empty speech';
-
-    console.log(util.inspect(req.body));
-    console.log(util.inspect(res));
 
         if (req.body) {
             var requestBody = req.body;
@@ -36,6 +43,10 @@ restService.post('/hook', function (req, res) {
 
         console.log('result: ', speech);
 
+        wss.clients.forEach((client) => {
+    client.send(speech);
+  });
+
         return res.json({
             speech: speech,
             displayText: speech,
@@ -53,6 +64,6 @@ restService.post('/hook', function (req, res) {
     }
 });
 
-restService.listen((process.env.PORT || 5000), function () {
+server.listen((process.env.PORT || 5000), function () {
     console.log("Server listening");
 });
