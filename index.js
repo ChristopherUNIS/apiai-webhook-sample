@@ -2,26 +2,8 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const server = express();
-
-const WebSocket = require('ws');
-const wss = new WebSocket.Server({ server });
-
-wss.on('connection', (ws) => {
-  console.log('Client connected');
-  ws.on('close', () => console.log('Client disconnected'));
-});
-
-// Broadcast to all. 
-wss.broadcast = function broadcast(data) {
-  wss.clients.forEach(function each(client) {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(data);
-    }
-  });
-};
- 
+const expressWs = require('express-ws')(server);
 
 server.use(bodyParser.json());
 
@@ -69,6 +51,33 @@ server.post('/hook', function (req, res) {
         });
     }
 });
+
+server.ws('/', function (ws, req) {
+    ws.on('message', function (msg) {
+        console.log(msg);
+    });
+    console.log('socket', req.testing);
+});
+
+server.ws('/', function (ws, req) {
+    console.log('Client connected');
+    ws.on('close', () => console.log('Client disconnected'));
+    ws.on('message', function incoming(message) {
+        console.log('received: %s', message);
+    });
+
+    ws.send('something');
+});
+
+var aWss = expressWs.getWss('/');
+
+aWss.broadcast = function broadcast(data) {
+    aWss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(data);
+        }
+    });
+};
 
 server.listen((process.env.PORT || 5000), function () {
     console.log("Server listening");
