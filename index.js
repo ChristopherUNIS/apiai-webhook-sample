@@ -8,7 +8,7 @@ const server = express();
 
 
 const SocketServer = require('ws').Server;
-const wss = new WebSocketServer({ server });
+const wss = new SocketServer({ server });
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
