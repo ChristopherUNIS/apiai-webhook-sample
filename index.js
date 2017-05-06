@@ -3,12 +3,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-
 const server = express();
 
-
-const SocketServer = require('ws').Server;
-const wss = new SocketServer({ server });
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
