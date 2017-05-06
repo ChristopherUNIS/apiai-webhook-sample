@@ -10,11 +10,12 @@ restService.use(bodyParser.json());
 restService.post('/hook', function (req, res) {
 
     console.log('hook request');
-    console.log(util.inspect(req));
-    console.log(util.inspect(res));
 
     try {
         var speech = 'empty speech';
+
+    console.log(util.inspect(req.body));
+    console.log(util.inspect(res));
 
         if (req.body) {
             var requestBody = req.body;
