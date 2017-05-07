@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const server = express();
 const expressWs = require('express-ws')(server);
-
+const WebSocket = require('ws');
 let sessionIds = new Map();
 let globalWs;
 
