@@ -38,7 +38,7 @@ server.post('/hook', function (req, res) {
 
         //   console.log('result: ', speech);
 
-        if (globalWs) {
+        if (globalWs && globalWs.readyState === WebSocket.OPEN) {
             globalWs.send(JSON.stringify(req.body));
         }
         else {
