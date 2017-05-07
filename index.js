@@ -99,6 +99,6 @@ var aWss = expressWs.getWss('/');
 //     });
 // };
 
-server.listen((process.env.PORT || 5000), function () {
+server.listen((process.env.PORT || 8080), function () {
     console.log("Server listening");
 });
