@@ -41,6 +41,9 @@ server.post('/hook', function (req, res) {
         if (globalWs) {
             globalWs.send(JSON.stringify(req.body));
         }
+        else {
+            throw "Your car is not connected"; 
+        }
 
         // return res.json({
         //     speech: speech,
